@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 
-from yt_dlp import YoutubeDL
 import sys
+import bitmath
 
-def hook(data):
-    if data['status'] == 'downloading':
-        print('IN MY HOOK!')
-        print(data)
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
-ydl_opts = {
-    'progress_hooks': [hook]
-}
-
-def main():
-    link = sys.argv[1]
-    print(f'Got "{link}" as a link, starting yt-dlp...')
-    with YoutubeDL(ydl_opts) as ydl:
-        ydl.download([link])
+def process_stdin():
+    buffer_size = bitmath.MB(100).bytes
+    while True:
+     try:
+        buffer = memoryview(sys.stdin.buffer.read(buffer_size))
+        bytes_read = len(buffer)
+        if bytes_read == 0:
+            break
+        nice_repr = bitmath.Byte(bytes_read).best_prefix().format("{value:.2f}{unit}")
+        eprint(f'[ydl-upload] Read {nice_repr} from pipe successfully!')
+        sys.stdout.buffer.write(buffer)
+     except EOFError:
+        break
 
 if __name__ == "__main__":
-   main()
+   process_stdin()
