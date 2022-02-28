@@ -1,0 +1,4 @@
+#+TITLE: Todo
+* TODO read url from argv
+* TODO ask yt-dlp if stream started and wait until it has
+* TODO start yt-dlp and read data from pipe in chunks
