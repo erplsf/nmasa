@@ -3,22 +3,25 @@
 #include <unistd.h>
 #include <vector>
 
+// READ LATER:
+// https://stackoverflow.com/questions/59526181/multipart-upload-s3-using-aws-c-sdk
+
 // const size_t chunk_size = 1024;
+// pipe ends: read -> write
+// class ExecR {
+// public:
+//   ExecR() { pipe(fd); }
+//   ~ExecR() {
+//     for (const auto descriptor: fd) {
+//       if (descriptor != -1)
+//         close(descriptor);
+//     }
+//   }
 
-class ExecR {
-public:
-  ExecR() { pipe(fd); }
-  ~ExecR() {
-    for (const auto descriptor: fd) {
-      if (descriptor != -1)
-        close(descriptor);
-    }
-  }
-
-private:
-  int fd[2];
-  int es;
-}
+// private:
+//   int fd[2]; // read -> write
+//   int es;
+// }
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
@@ -66,6 +69,10 @@ int main(int argc, char* argv[]) {
       fmt::print("Child exited with status: {}!\n", es);
     }
   }
+
+  std::vector<std::byte> data;
+  data.reserve(1e+8); // 100 MB
+  (void)data;
 
   return EXIT_SUCCESS;
 }
