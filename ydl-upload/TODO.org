@@ -1,8 +1,4 @@
 #+TITLE: Todo
-* TODO read url from argv
-* TODO ask yt-dlp if stream started and wait until it has
-* TODO start yt-dlp and read data from pipe in chunks
-* TODO Presigned urls
-* TODO Chunked s3 uploads
+* TODO turn the project into simple chunked s3/backblaze2 uploader
 * TODO Lambda + fargate
-* TODO Gcalendar integration
+* TODO gcalendar integration (schedule for start and url from location)
